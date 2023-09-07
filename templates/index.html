@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notlar</title>
+</head>
+<body>
+    <h1>Notlar</h1>
+    
+    <!-- Not Ekleme Formu -->
+    <form action="/add" method="POST">
+        <label for="title">Başlık:</label><br>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="content">İçerik:</label><br>
+        <textarea id="content" name="content" rows="4" required></textarea><br><br>
+
+        <label for="category">Kategori:</label><br>
+        <input type="text" id="category" name="category"><br><br>
+
+        <button type="submit">Ekle</button>
+    </form>
+
+    <!-- Notlar Listesi -->
+    <h2>Notlar</h2>
+    <ul>
+        {% for note in notes %}
+            <li>
+                <strong>{{ note.title }}</strong><br>
+                {{ note.content }}<br>
+                {% if note.category %}
+                    <em>Kategori: {{ note.category }}</em><br>
+                {% endif %}
+                <a href="/edit/{{ note.id }}">Düzenle</a> |
+                <a href="/delete/{{ note.id }}">Sil</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Not Düzenleme Formu -->
+    {% if note %}
+        <h2>Not Düzenle</h2>
+        <form action="/edit/{{ note.id }}" method="POST">
+            <label for="title">Başlık:</label><br>
+            <input type="text" id="title" name="title" value="{{ note.title }}" required><br><br>
+
+            <label for="content">İçerik:</label><br>
+            <textarea id="content" name="content" rows="4" required>{{ note.content }}</textarea><br><br>
+
+            <label for="category">Kategori:</label><br>
+            <input type="text" id="category" name="category" value="{{ note.category }}"><br><br>
+
+            <button type="submit">Kaydet</button>
+        </form>
+    {% endif %}
+</body>
+</html>
